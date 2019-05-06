@@ -43,7 +43,7 @@ int _tmain(int argc, _TCHAR* argv[])
 
 void WriteComPort(void) {
 	byte data_for_controller1[] = {242, 255, 1, 2, 3};
-	byte data_for_controller[] = { 242, 255, 3, 1, 0, 26, 24 };
+	byte data_for_controller[] = {242, 255, 3, 1, 0, 26, 24};
 	DWORD dwSize = sizeof(data_for_controller);
 	DWORD dwSize1 = sizeof(data_for_controller1);
 	DWORD dwBytesWritten;
@@ -54,18 +54,18 @@ void WriteComPort(void) {
 	{
 		if (GetLastError() == ERROR_FILE_NOT_FOUND)
 		{
-			cout << "serial port does not exist \n";
+			std::cout << "serial port does not exist \n";
 		}
 		else
 		{                                                        
-			cout << "other error \n";
+			std::cout << "other error \n";
 		}
 	}
 
 	dcbSerialParams.DCBlength = sizeof(dcbSerialParams);
 	if (!GetCommState(hPort, &dcbSerialParams))
 	{
-		cout << "getting state error\n";
+		std::cout << "getting state error\n";
 	}
 	dcbSerialParams.BaudRate = CBR_9600;
 	dcbSerialParams.ByteSize = 8;
@@ -74,7 +74,7 @@ void WriteComPort(void) {
 
 	if (!SetCommState(hPort, &dcbSerialParams))
 	{
-			cout << "error setting serial port state \n";
+		std::cout << "error setting serial port state \n";
 	}
 	WriteFile(hPort, data_for_controller, dwSize, &dwBytesWritten, NULL);
 	WriteFile(hPort, data_for_controller1, dwSize1, &dwBytesWritten, NULL);
@@ -98,7 +98,7 @@ void ReadComPort(void)
 					int ss = (buffer[i + 6] >> 1) + (buffer[i + 7] & 1) * 128;
 					number = number + ss * 256;
 					int series = (buffer[i + 7] >> 1) + (buffer[i + 8] & 1) * 128;
-					cout << series << " " << number << "\n";
+					std::cout << series << " " << number << "\n";
 				}
 			}
 		}
