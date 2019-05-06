@@ -10,7 +10,6 @@
 
 
 #include <stdio.h>
-
 #include <windows.h>
 #include <iostream>
 using namespace std;
@@ -19,29 +18,26 @@ typedef unsigned char uint8_t;
 typedef unsigned short uint16_t;
 typedef unsigned int uint32_t;
 
-HANDLE hPort; // структура для управления com-port (h_port - адрес)
+HANDLE hPort;
 LPCTSTR sPortName = "COM5";
 DCB dcbSerialParams = { 0 };
-
 
 void WriteComPort(void);
 void ReadComPort(void);
 
-string seriya = "";
-string nomer = "";
-string karta = "";
-string karta16;
+string series = "";
+string number = "";
 
 int _tmain(int argc, _TCHAR* argv[])
 {
-	std::cout << "Begin:" << '\n';
+	std::cout << "Begin:\n";
 	while (1)
 	{
 		WriteComPort();
 		ReadComPort();
 		CloseHandle(hPort);
 	}
-    CloseHandle(hPort);
+    	CloseHandle(hPort);
 	return 0;
 }
 
@@ -61,8 +57,7 @@ void WriteComPort(void) {
 			cout << "serial port does not exist \n";
 		}
 		else
-		{                                                        \
-
+		{                                                        
 			cout << "other error \n";
 		}
 	}
@@ -99,16 +94,13 @@ void ReadComPort(void)
 			{
 				if (buffer[i] == 8)
 				{
-					int nomk = (buffer[i + 5] >> 1) + (buffer[i + 6] & 1) * 128;
+					int number = (buffer[i + 5] >> 1) + (buffer[i + 6] & 1) * 128;
 					int ss = (buffer[i + 6] >> 1) + (buffer[i + 7] & 1) * 128;
-					nomk = nomk + ss * 256;
-					int serk = (buffer[i + 7] >> 1) + (buffer[i + 8] & 1) * 128;
-					cout << serk << " " << nomk;
-					cout << "\n";
-
+					number = number + ss * 256;
+					int series = (buffer[i + 7] >> 1) + (buffer[i + 8] & 1) * 128;
+					cout << series << " " << number << "\n";
 				}
 			}
 		}
 
 }
-
